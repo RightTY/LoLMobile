@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="LineBot.SDK" Version="0.2.0" NoWarn="NU1701"/>
+  </ItemGroup>
+
 </Project>
