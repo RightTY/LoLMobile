@@ -8,6 +8,7 @@ namespace LoLMobile.Controllers
     [ApiController]
     public class LineBotController : ControllerBase
     {
+        [HttpPost]
         public IActionResult WebHook(ReceivedMessage receievedMessage)
         {
             return Ok();
