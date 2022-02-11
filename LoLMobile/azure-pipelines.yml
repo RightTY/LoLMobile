@@ -1,0 +1,53 @@
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Debug'
+
+steps:
+# ASP.NET Core (.NET Framework)
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'
+    includePreviewVersions: true
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Pay-As-You-Go (f49994cb-5581-4e57-9788-32a2f4a73b80)'
+    appType: 'webApp'
+    appName: 'LoLMobile'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
+  
