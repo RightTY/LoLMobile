@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LoLMobile.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class LineBotController : ControllerBase
     {
-        public IActionResult Hook(ReceivedMessage receievedMessage)
+        public IActionResult WebHook(ReceivedMessage receievedMessage)
         {
             return Ok();
         }
