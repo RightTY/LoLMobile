@@ -1,7 +1,9 @@
 ﻿using isRock.LineBot;
+using LoLMobile.Bll;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace LoLMobile.Controllers
 {
@@ -53,31 +55,57 @@ https://ift.tt/3iczt1f
                 {
                     switch (@event.type)
                     {
-                        case "memberJoined":
-                            List<string> users = new();
-                            foreach (SourceUser sourceUser in @event.joined.members)
+                        case "message":
                             {
-                                LineUserInfo lineUserInfo = Utility.GetGroupMemberProfile(@event.source.groupId, sourceUser.userId, ChannelAccessToken);
-                                users.Add(lineUserInfo.displayName);
+                                switch (@event.message.type)
+                                {
+                                    case "text":
+                                        {
+                                            Regex regex = new(@"^#");
+                                            if (regex.IsMatch(@event.message.text))
+                                            {
+                                                ReplyMessageWithJSON(@event.replyToken, new LineBotBll().Text(@event));
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
                             }
-                            ReplyMessage(@event.replyToken, new TextMessage(
-                                string.Format(WelcomeMessage, string.Join(",", users))
-                            ));
-                            break;
-                        default: 
+                        case "memberJoined":
+                            {
+                                List<string> users = new();
+                                foreach (SourceUser sourceUser in @event.joined.members)
+                                {
+                                    LineUserInfo lineUserInfo = Utility.GetGroupMemberProfile(@event.source.groupId, sourceUser.userId, ChannelAccessToken);
+                                    users.Add(lineUserInfo.displayName);
+                                }
+                                ReplyMessage(@event.replyToken, new TextMessage(
+                                    string.Format(WelcomeMessage, string.Join(",", users))
+                                ));
+                                break;
+                            }
+                        default:
                             break;
                     }
                 }
             }
             catch (Exception ex)
             {
-                PushMessage("U614a3caf28092783f99e50ccd5372567", 
+                PushMessage("U614a3caf28092783f99e50ccd5372567",
                     ex.Message +
                     "\n\r" +
                     JsonConvert.SerializeObject(receievedMessage)
                 );
             }
             return Ok();
+        }
+
+       
+
+        [HttpPost]
+        public string Test()
+        {
+           return new LineBotBll().GetUsers(new Event());
         }
     }
 }
