@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace LoLMobile.Models.Line.FlexMessage.Element
 {
     public class FlexAction
     {
-        [JsonProperty("type")]
-        public string Type { get; set; }
+        [JsonPropertyName("type")]
+        public string Type { get; set; } = string.Empty;
 
-        [JsonProperty("label")]
-        public string Label { get; set; }
+        [JsonPropertyName("label")]
+        public string Label { get; set; } = string.Empty;
 
-        [JsonProperty("uri")]
-        public Uri Uri { get; set; }
+        [JsonPropertyName("uri")]
+        public Uri Uri { get; set; } = new Uri(string.Empty);
     }
 }

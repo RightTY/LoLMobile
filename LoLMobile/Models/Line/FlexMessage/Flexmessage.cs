@@ -1,15 +1,15 @@
 ﻿using LoLMobile.Models.Line.FlexMessage.Element;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace LoLMobile.Models.Line.FlexMessage
 {
     public class Flexmessage
     {
-        [JsonProperty("type")]
-        public string Type { get; set; }
-        [JsonProperty("altText")]
-        public string AltText { get; set; }
-        [JsonProperty("contents")]
-        public Carousel Contents { get; set; }
+        [JsonPropertyName("type")]
+        public string Type { get; set; } = string.Empty;
+        [JsonPropertyName("altText")]
+        public string AltText { get; set; } = string.Empty;
+        [JsonPropertyName("contents")]
+        public Carousel Contents { get; set; } = new Carousel();
     }
 }

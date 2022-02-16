@@ -1,12 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace LoLMobile.Models.Line.FlexMessage.Element
 {
     public class Carousel
     {
-        [JsonProperty("type")]
-        public string Type { get; set; }
-        [JsonProperty("contents")]
-        public List<Bubble> Contents { get; set; }
+        [JsonPropertyName("type")] 
+        public string Type { get; set; } = "carousel";
+
+        [JsonPropertyName("contents")]
+        public List<Bubble> Contents { get; set; } = new List<Bubble>();
     }
 }

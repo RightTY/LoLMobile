@@ -1,52 +1,52 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace LoLMobile.Models.Line.FlexMessage.Element
 {
     public class Content
     {
-        [JsonProperty("type")]
-        public string Type { get; set; }
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
-        [JsonProperty("layout")]
-        public string Layout { get; set; }
+        [JsonPropertyName("layout")]
+        public string? Layout { get; set; }
 
-        [JsonProperty("text")]
-        public string Text { get; set; }
+        [JsonPropertyName("text")]
+        public string? Text { get; set; }
 
-        [JsonProperty("flex")]
-        public string Flex { get; set; }
+        [JsonPropertyName("flex")]
+        public string? Flex { get; set; }
 
-        [JsonProperty("spacing")]
-        public string Spacing { get; set; }
+        [JsonPropertyName("spacing")]
+        public string? Spacing { get; set; }
 
-        [JsonProperty("margin")]
-        public string Margin { get; set; }
+        [JsonPropertyName("margin")]
+        public string? Margin { get; set; }
 
-        [JsonProperty("weight")]
-        public string Weight { get; set; }
+        [JsonPropertyName("weight")]
+        public string? Weight { get; set; }
 
-        [JsonProperty("height")]
-        public string Height { get; set; }
+        [JsonPropertyName("height")]
+        public string? Height { get; set; }
 
-        [JsonProperty("size")]
-        public string Size { get; set; }
+        [JsonPropertyName("size")]
+        public string? Size { get; set; }
 
-        [JsonProperty("color")]
-        public string Color { get; set; }
+        [JsonPropertyName("color")]
+        public string? Color { get; set; }
 
-        [JsonProperty("style")]
-        public string Style { get; set; }
+        [JsonPropertyName("style")]
+        public string? Style { get; set; }
 
-        [JsonProperty("align")]
-        public string Align { get; set; }
+        [JsonPropertyName("align")]
+        public string? Align { get; set; }
 
-        [JsonProperty("wrap")]
+        [JsonPropertyName("wrap")]
         public bool? Wrap { get; set; }
 
-        [JsonProperty("action")]
-        public FlexAction Action { get; set; }
+        [JsonPropertyName("action")]
+        public FlexAction? Action { get; set; }
 
-        [JsonProperty("contents")]
-        public List<Content> Contents { get; set; }
+        [JsonPropertyName("contents")]
+        public List<Content>? Contents { get; set; }
     }
 }

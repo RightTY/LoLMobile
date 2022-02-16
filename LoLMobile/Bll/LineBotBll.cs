@@ -1,9 +1,11 @@
 ﻿using Google.Apis.Sheets.v4.Data;
 using isRock.LineBot;
 using LoLMobile.Helper;
+using LoLMobile.Models;
 using LoLMobile.Models.Line.FlexMessage;
 using LoLMobile.Models.Line.FlexMessage.Element;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace LoLMobile.Bll
@@ -15,13 +17,14 @@ namespace LoLMobile.Bll
             Dictionary<Regex, Func<Event, string>> dic = new()
             {
                 { new Regex("^#成員名單"), GetUsers },//官網
+                { new Regex("^#公告"), GetAnnouncement },//官網
             };
 
             var Funcs = dic.Where(x => x.Key.IsMatch(@event.message.text) == true);
 
             if (!Funcs.Any())
             {
-                return "查無關鍵字";
+                return "無此功能";
             }
             else
             {
@@ -38,27 +41,21 @@ namespace LoLMobile.Bll
             {
                 Type = "flex",
                 AltText = "成員名單",
-                Contents = new Carousel
-                {
-                    Type = "carousel"
-                }
             };
 
             int maxCount = 10;
             bool isDivisible = !(valueRange.Values.Count % maxCount > 0);
             int frequency = isDivisible ? valueRange.Values.Count / maxCount : (valueRange.Values.Count / maxCount + 1);
-            List<Bubble> bubbles = new List<Bubble>();
+            List<Bubble> bubbles = new();
             for (int i = 0; i < frequency; i++)
             {
                 var values = valueRange.Values.Skip(i * maxCount).Take(maxCount);
                 Bubble bubble = new()
                 {
-                    Type = "bubble",
                     Body = new FlexBody
                     {
                         Type = "box",
-                        Layout = "vertical",
-                        Contents = new List<Content>()
+                        Layout = "vertical"
                     }
                 };
 
@@ -106,7 +103,7 @@ namespace LoLMobile.Bll
                         }
                     }
                 };
-                List<Content> dataBoxContents = new List<Content>(); ;
+                List<Content> dataBoxContents = new(); ;
                 foreach (object item in values)
                 {
                     List<object> datas = item as List<object>;
@@ -163,14 +160,18 @@ namespace LoLMobile.Bll
             }
             flexmessage.Contents.Contents = bubbles.ToList();
             List<Flexmessage> flexmessages = new() { flexmessage };
-
-            return JsonConvert.SerializeObject(
+            return JsonSerializer.Serialize(
                 flexmessages,
-                new JsonSerializerSettings
+                new JsonSerializerOptions
                 {
-                    NullValueHandling = NullValueHandling.Ignore
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                 }
             );
+        }
+
+        public string GetAnnouncement(Event @event)
+        {
+            return new GoogleBll().GetAnnouncement();
         }
     }
 }

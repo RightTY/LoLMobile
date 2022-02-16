@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace LoLMobile.Models.Line.FlexMessage.Element
 {
     public class Bubble
     {
-        [JsonProperty("type")]
-        public string Type { get; set; }
+        [JsonPropertyName("type")]
+        public string Type { get; set; } = "bubble";
 
-        [JsonProperty("body")]
-        public FlexBody Body { get; set; }
+        [JsonPropertyName("body")]
+        public FlexBody? Body { get; set; }
 
-        [JsonProperty("footer")]
-        public FlexFooter Footer { get; set; }
+        [JsonPropertyName("footer")]
+        public FlexFooter? Footer { get; set; }
     }
 }
