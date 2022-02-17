@@ -11,6 +11,10 @@ namespace LoLMobile.Models.Line.FlexMessage.Element
         public string Label { get; set; } = string.Empty;
 
         [JsonPropertyName("uri")]
-        public Uri Uri { get; set; } = new Uri(string.Empty);
+        public Uri? Uri { get; set; }
+
+
+        [JsonPropertyName("data")]
+        public string Data { get; set; } = string.Empty;
     }
 }

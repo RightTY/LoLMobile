@@ -1,6 +1,7 @@
 ﻿using isRock.LineBot;
 using LoLMobile.Bll;
 using LoLMobile.Extension;
+using LoLMobile.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -15,7 +16,7 @@ namespace LoLMobile.Controllers
     {
         public LineBotController()
         {
-            ChannelAccessToken = "SU0mi6z1Lt02IOa2sxSMYfhO+X/yFMfaTxcMH4QTqjHaXK8KEYPv6WH0ohvFf2pOElwsNyjhg9gLvhstfweDHnguKk4zqOFYC7QMgj8G5ZSc01PZWhKDUMeddu4sLaiSZ5xNSwy9xUqp8YRM0TlsGwdB04t89/1O/w1cDnyilFU=";
+            ChannelAccessToken = LineBotHelper.ChannelAccessToken;
         }
 
         [HttpPost]
@@ -33,17 +34,7 @@ namespace LoLMobile.Controllers
                                 {
                                     case "text":
                                         {
-                                            Regex regex = new(@"^#");
-                                            if (regex.IsMatch(@event.message.text))
-                                            {
-                                                string message = new LineBotBll().Text(@event);
-                                                Func<string, string, string> func = ReplyMessage;
-                                                if (message.IsJsonArrayValid())
-                                                {
-                                                    func = ReplyMessageWithJSON;
-                                                }
-                                                func(@event.replyToken, message);
-                                            }
+                                            TextReply(@event,@event.message.text);
                                             break;
                                         }
                                 }
@@ -62,6 +53,11 @@ namespace LoLMobile.Controllers
                                 ));
                                 break;
                             }
+                        case "postback":
+                            {
+                                TextReply(@event,@event.postback.data);
+                                break;
+                            }
                         default:
                             break;
                     }
@@ -78,12 +74,33 @@ namespace LoLMobile.Controllers
             return Ok();
         }
 
+        private void TextReply(Event @event,string text)
+        {
+            Regex regex = new(@"^#");
+            if (regex.IsMatch(text))
+            {
+                string message = new LineBotBll().Text(@event, text);
+                Func<string, string, string> func = ReplyMessage;
+                if (message.IsJsonArrayValid())
+                {
+                    func = ReplyMessageWithJSON;
+                }
+                func(@event.replyToken, message);
+            }
+        }
 
 
         [HttpPost]
         public string Test()
         {
-            return new LineBotBll().GetUsers(new Event());
+           return new LineBotBll().GetActivityUser(new Event
+            {
+                message = new Message
+                {
+                    text = "#活動用戶資訊 : 進擊の峽谷團👨🏼‍🤝‍👨🏻（台南篇）"
+                },
+            }, "#活動用戶資訊 : 進擊の峽谷團👨🏼‍🤝‍👨🏻（台南篇）"
+            );
         }
     }
 }

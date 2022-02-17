@@ -1,4 +1,5 @@
 using LoLMobile.Helper;
+using LoLMobile.TimerTool;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,5 +31,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+new LineBotTimer().StartTimer();
 
 app.Run();

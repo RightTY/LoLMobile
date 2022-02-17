@@ -14,7 +14,7 @@ namespace LoLMobile.Models.Line.FlexMessage.Element
         public string? Text { get; set; }
 
         [JsonPropertyName("flex")]
-        public string? Flex { get; set; }
+        public int? Flex { get; set; }
 
         [JsonPropertyName("spacing")]
         public string? Spacing { get; set; }

@@ -9,6 +9,7 @@ namespace LoLMobile.Bll
         private readonly string Sheets = "1v2wfUsuvIXoFdtnT1ZVQDiuBM74moKx58OAyWMCgTiI";
         private readonly int UsersSheetId = 1699828542;
         private readonly int ProgramSettingtSheetId = 1692751547;
+        private readonly int ActivitySheetId = 181201154;
         public ValueRange GetUsers()
         {
             SpreadsheetsResource.GetRequest request =
@@ -44,6 +45,25 @@ namespace LoLMobile.Bll
             ValueRange valueRange = sheetRequest.Execute();
 #nullable disable
             return valueRange.Values[0][0].ToString();
+        }
+
+        public ValueRange GetActivity()
+        {
+            SpreadsheetsResource.GetRequest request =
+                GoogleHelper.SheetsService.Spreadsheets.Get(Sheets);
+            Spreadsheet response = request.Execute();
+            SheetProperties ProgramSettingtSheetProperties = response.Sheets.Where(x => x.Properties.SheetId == ActivitySheetId).Single().Properties;
+            SpreadsheetsResource.ValuesResource.GetRequest sheetRequest =
+                GoogleHelper.SheetsService.Spreadsheets.Values.Get(Sheets, ProgramSettingtSheetProperties.Title + "!A2:J");
+            ValueRange valueRange = sheetRequest.Execute();
+            return valueRange;
+        }
+        public ValueRange GetActivityUser(string sheetName)
+        {
+            SpreadsheetsResource.ValuesResource.GetRequest sheetRequest =
+                GoogleHelper.SheetsService.Spreadsheets.Values.Get(Sheets, sheetName + "!A2:D");
+            ValueRange valueRange = sheetRequest.Execute();
+            return valueRange;
         }
     }
 }
