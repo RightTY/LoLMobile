@@ -223,14 +223,14 @@ namespace LoLMobile.Bll
                                 Layout = "vertical",
                                 Margin = "lg",
                                 Spacing = "sm",
-                                Contents = new List<Content>
+                                Contents = new()
                                 {
                                     new Content
                                     {
                                         Type ="box",
                                         Layout = "baseline",
                                         Spacing = "sm",
-                                        Contents= new List<Content>
+                                        Contents = new()
                                         {
                                             new Content
                                             {
@@ -257,7 +257,7 @@ namespace LoLMobile.Bll
                                         Layout = "baseline",
                                         Spacing = "sm",
                                         Margin = "md",
-                                        Contents= new List<Content>
+                                        Contents = new()
                                         {
                                             new Content
                                             {
@@ -284,7 +284,7 @@ namespace LoLMobile.Bll
                                         Layout = "baseline",
                                         Spacing = "sm",
                                         Margin = "md",
-                                        Contents= new List<Content>
+                                        Contents = new()
                                         {
                                             new Content
                                             {
@@ -311,7 +311,7 @@ namespace LoLMobile.Bll
                                         Layout = "baseline",
                                         Spacing = "sm",
                                         Margin = "md",
-                                        Contents= new List<Content>
+                                        Contents = new()
                                         {
                                             new Content
                                             {
@@ -338,7 +338,7 @@ namespace LoLMobile.Bll
                                         Layout = "baseline",
                                         Spacing = "sm",
                                         Margin = "md",
-                                        Contents= new List<Content>
+                                        Contents= new()
                                         {
                                             new Content
                                             {
@@ -365,7 +365,7 @@ namespace LoLMobile.Bll
                                         Layout = "baseline",
                                         Spacing = "sm",
                                         Margin = "md",
-                                        Contents= new List<Content>
+                                        Contents= new()
                                         {
                                             new Content
                                             {
@@ -392,7 +392,7 @@ namespace LoLMobile.Bll
                                         Layout = "baseline",
                                         Spacing = "sm",
                                         Margin = "md",
-                                        Contents= new List<Content>
+                                        Contents= new()
                                         {
                                             new Content
                                             {
@@ -490,6 +490,32 @@ namespace LoLMobile.Bll
                             Type = "text",
                             Text = activityName,
                             Wrap = true
+                        },
+                        new Content
+                        {
+                            Type = "box",
+                            Layout = "baseline",
+                            Spacing = "sm",
+                            Contents = new()
+                            {
+                                new Content
+                                {
+                                    Type = "text",
+                                    Text = "點擊者",
+                                    Color = "#aaaaaa",
+                                    Size = "sm",
+                                    Flex = 2
+                                },
+                                new Content
+                                {
+                                    Type = "text",
+                                    Text = Utility.GetGroupMemberProfile(LineBotHelper.GroupId, @event.source.userId, LineBotHelper.ChannelAccessToken).displayName,
+                                    Wrap = true,
+                                    Color = "#666666",
+                                    Size = "sm",
+                                    Flex = 5
+                                }
+                            }
                         },
                         new Content
                         {
