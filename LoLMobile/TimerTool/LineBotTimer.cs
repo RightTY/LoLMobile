@@ -7,15 +7,16 @@ namespace LoLMobile.TimerTool
 {
     public class LineBotTimer
     {
-        public void StartTimer()
+        public static void StartTimer()
         {
             string funcName = string.Empty;
             try
             {
                 funcName = "AnnouncementTimer";
                 AnnouncementTimer();
-                //funcName = "ActivityTimer";
-                //ActivityTimer();
+                funcName = "ActivityTimer";
+                ActivityTimer();
+                Utility.PushMessage(LineBotHelper.AdminId, "定時器啟動成功", LineBotHelper.ChannelAccessToken);
             }
             catch (Exception ex)
             {
@@ -28,7 +29,7 @@ namespace LoLMobile.TimerTool
             }
 
         }
-        private void AnnouncementTimer()
+        private static void AnnouncementTimer()
         {
             DateTime dateTime = DateTime.Today;//00:00
 
@@ -42,7 +43,7 @@ namespace LoLMobile.TimerTool
             timer.Change(UntiFour, Timeout.Infinite);
         }
 
-        private void GetAnnouncement(object? state)
+        private static void GetAnnouncement(object? state)
         {
             string message = new GoogleBll().GetAnnouncement();
 
@@ -54,7 +55,7 @@ namespace LoLMobile.TimerTool
             AnnouncementTimer();
         }
 
-        private void ActivityTimer()
+        private static void ActivityTimer()
         {
             DateTime dateTime = DateTime.Today.AddHours(3);//03:00
 
@@ -68,9 +69,9 @@ namespace LoLMobile.TimerTool
             timer.Change(UntiFour, Timeout.Infinite);
         }
 
-        private void GetActivity(object? state)
+        private static void GetActivity(object? state)
         {
-            string message = new GoogleBll().GetAnnouncement();
+            string message = new LineBotBll().GetActivity(new Event(),string.Empty);
 
             if (!LineBotHelper.CheckMessageLength(message))
             {

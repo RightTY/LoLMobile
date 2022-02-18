@@ -32,6 +32,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-new LineBotTimer().StartTimer();
+LineBotTimer.StartTimer();
 
 app.Run();
