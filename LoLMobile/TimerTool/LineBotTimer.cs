@@ -16,7 +16,7 @@ namespace LoLMobile.TimerTool
                 AnnouncementTimer();
                 funcName = "ActivityTimer";
                 ActivityTimer();
-                Utility.PushMessage(LineBotHelper.AdminId, "定時器啟動成功", LineBotHelper.ChannelAccessToken);
+                //Utility.PushMessage(LineBotHelper.AdminId, "定時器啟動成功", LineBotHelper.ChannelAccessToken);
             }
             catch (Exception ex)
             {
