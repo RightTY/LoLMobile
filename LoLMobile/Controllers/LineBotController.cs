@@ -4,6 +4,7 @@ using LoLMobile.Extension;
 using LoLMobile.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -35,7 +36,7 @@ namespace LoLMobile.Controllers
                                     case "text":
                                         {
                                             //TextReply(@event,@event.message.text);
-                                            Test();
+                                            Test(@event);
                                             break;
                                         }
                                 }
@@ -56,7 +57,7 @@ namespace LoLMobile.Controllers
                             }
                         case "postback":
                             {
-                                TextReply(@event,@event.postback.data);
+                                TextReply(@event, @event.postback.data);
                                 break;
                             }
                         default:
@@ -75,7 +76,7 @@ namespace LoLMobile.Controllers
             return Ok();
         }
 
-        private void TextReply(Event @event,string text)
+        private void TextReply(Event @event, string text)
         {
             Regex regex = new(@"^#");
             if (regex.IsMatch(text))
@@ -92,16 +93,12 @@ namespace LoLMobile.Controllers
 
 
         [HttpPost]
-        public string Test()
+        public string Test(Event @event)
         {
-           return new LineBotBll().GetActivityUser(new Event
-            {
-                message = new Message
-                {
-                    text = "#測試"
-                },
-            }, "#活動用戶資訊 : 進擊の峽谷團👨🏼‍🤝‍👨🏻（台南篇）"
-            );
+            return ReplyMessage(@event.replyToken, new TextMessage(
+                                     "這是測試訊息"
+                                 )
+             );
         }
     }
 }
