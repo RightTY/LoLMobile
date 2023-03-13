@@ -34,7 +34,8 @@ namespace LoLMobile.Controllers
                                 {
                                     case "text":
                                         {
-                                            TextReply(@event,@event.message.text);
+                                            //TextReply(@event,@event.message.text);
+                                            Test();
                                             break;
                                         }
                                 }
@@ -55,8 +56,7 @@ namespace LoLMobile.Controllers
                             }
                         case "postback":
                             {
-                                //TextReply(@event,@event.postback.data);
-                                Test();
+                                TextReply(@event,@event.postback.data);
                                 break;
                             }
                         default:
