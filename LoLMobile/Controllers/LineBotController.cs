@@ -55,7 +55,8 @@ namespace LoLMobile.Controllers
                             }
                         case "postback":
                             {
-                                TextReply(@event,@event.postback.data);
+                                //TextReply(@event,@event.postback.data);
+                                Test();
                                 break;
                             }
                         default:
@@ -97,7 +98,7 @@ namespace LoLMobile.Controllers
             {
                 message = new Message
                 {
-                    text = "#活動用戶資訊 : 進擊の峽谷團👨🏼‍🤝‍👨🏻（台南篇）"
+                    text = "#測試"
                 },
             }, "#活動用戶資訊 : 進擊の峽谷團👨🏼‍🤝‍👨🏻（台南篇）"
             );
