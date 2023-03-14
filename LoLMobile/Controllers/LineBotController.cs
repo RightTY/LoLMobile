@@ -35,8 +35,8 @@ namespace LoLMobile.Controllers
                                 {
                                     case "text":
                                         {
-                                            //TextReply(@event,@event.message.text);
-                                            Test(@event);
+                                            TextReply(@event,@event.message.text);
+                                            //Test(@event);
                                             break;
                                         }
                                 }
